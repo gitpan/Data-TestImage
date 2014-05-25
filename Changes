@@ -1,0 +1,5 @@
+0.001 2014-05-24 19:17:50-0500
+  - initial version
+  - provides an interface to the USC SIPI image database and installs the misc
+    portion by default
+  - provides cameraman.tiff
