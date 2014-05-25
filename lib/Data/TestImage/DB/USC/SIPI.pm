@@ -1,6 +1,6 @@
 package Data::TestImage::DB::USC::SIPI;
 # ABSTRACT: provides access to the USC SIPI test image database
-$Data::TestImage::DB::USC::SIPI::VERSION = '0.002';
+$Data::TestImage::DB::USC::SIPI::VERSION = '0.003';
 use strict;
 use warnings;
 use Data::TestImage;
@@ -99,7 +99,7 @@ sub install_package {
 			try {
 				$response = HTTP::Tiny->new->get($url);
 				die "Failed to download $volume @ $url\n" unless $response->{success};
-				last;
+				last URL;
 			} catch {
 				next URL;
 			};
@@ -161,14 +161,16 @@ Data::TestImage::DB::USC::SIPI - provides access to the USC SIPI test image data
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 SYNOPSIS
 
     use Data::TestImage::DB::USC::SIPI;
 
     # two different ways of referring to the same image
-    my @mandrill_images = map { Data::TestImage::DB::USC::SIPI->get_image($_) } qw(4.2.03 mandrill);
+    my @mandrill_images = map {
+        Data::TestImage::DB::USC::SIPI->get_image($_)
+    } qw(4.2.03 mandrill);
     say join " & ", map { $_->basename } @mandrill_images;
     # 4.2.03.tiff & 4.2.03.tiff
 
@@ -182,7 +184,7 @@ sequences. By default, only the miscellaneous volume is installed.
 
 =head2 IMAGE_DB_VOLUME
 
-    IMAGE_DB_VOLUME
+    IMAGE_DB_VOLUME()
 
 Returns a hash containing information about each of the volumes in the image database.
 
@@ -196,9 +198,9 @@ Returns an arrayref of strings indicating which volumes are installed.
 
     get_metadata()
 
-Returns metadata about all images in the database (even those not installed).
-This data includes the size, a textual description, and whether the image is
-24 bpp color or 8 bpp monochrome.
+Returns a hashref of metadata about all images in the database (even those not
+installed).  This data includes the size, a textual description, and whether
+the image is 24 bpp color or 8 bpp monochrome.
 
 =head2 get_image
 

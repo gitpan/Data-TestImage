@@ -1,6 +1,6 @@
 package Data::TestImage::DB;
 # ABSTRACT: an abstract class for an image database
-$Data::TestImage::DB::VERSION = '0.002';
+$Data::TestImage::DB::VERSION = '0.003';
 use strict;
 use warnings;
 use List::AllUtils qw(first);
@@ -42,7 +42,7 @@ Data::TestImage::DB - an abstract class for an image database
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 METHODS
 
@@ -52,7 +52,7 @@ version 0.002
 
 Returns the top-level directory of this image database. This method must be
 implemented by children of this class in order to use the default
-implementations of L</get_installed_images>.
+implementation of L</get_installed_images>.
 
 =head2 get_installed_images
 

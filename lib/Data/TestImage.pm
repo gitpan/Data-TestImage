@@ -1,6 +1,6 @@
 package Data::TestImage;
 # ABSTRACT: interface for retrieving test images
-$Data::TestImage::VERSION = '0.002';
+$Data::TestImage::VERSION = '0.003';
 use strict;
 use warnings;
 use File::ShareDir 'dist_dir';
@@ -34,7 +34,14 @@ Data::TestImage - interface for retrieving test images
 
 =head1 VERSION
 
-version 0.002
+version 0.003
+
+=head1 SYNOPSIS
+
+    use Data::TestImage;
+
+    say Data::TestImage->get_image('mandrill')->basename;
+    # 4.2.03.tiff
 
 =head1 METHODS
 
