@@ -45,7 +45,7 @@ my %WriteMakefileArgs = (
     "Test::More" => 0,
     "lib" => 0
   },
-  "VERSION" => "0.001",
+  "VERSION" => "0.002",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -60,7 +60,7 @@ $WriteMakefileArgs{CONFIGURE} = sub {
 	my @install = split ' ', $install_these;
 	for my $package (@install) {
 		my ($module_part,$args) = split "=", $package;
-		my $module = "Data::TestImage::$module_part";
+		my $module = "Data::TestImage::DB::$module_part";
 		load $module;
 		$module->install_package($args, verbose => 1);
 	}

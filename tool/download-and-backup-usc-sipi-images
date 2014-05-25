@@ -22,7 +22,7 @@ else
 fi
 
 # get list of URLs
-perl -I$LIB -MData::TestImage::USC::SIPI -E 'say join "\n", map { $_->{url} } values Data::TestImage::USC::SIPI::IMAGE_DB_VOLUME' \
+perl -I$LIB -MData::TestImage::USC::SIPI -E 'say join "\n", map { $_->{url} } values Data::TestImage::DB::USC::SIPI::IMAGE_DB_VOLUME' \
 	| wget -P $WORK -ci - # then download them
 
 # show file changes

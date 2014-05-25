@@ -21,7 +21,7 @@ $WriteMakefileArgs{CONFIGURE} = sub {
 	my @install = split ' ', $install_these;
 	for my $package (@install) {
 		my ($module_part,$args) = split "=", $package;
-		my $module = "Data::TestImage::$module_part";
+		my $module = "Data::TestImage::DB::$module_part";
 		load $module;
 		$module->install_package($args, verbose => 1);
 	}

@@ -10,8 +10,8 @@ dist.ini
 inc/TestImageMakeMaker.pm
 lib/Data/TestImage.pm
 lib/Data/TestImage/DB.pm
-lib/Data/TestImage/Other.pm
-lib/Data/TestImage/USC/SIPI.pm
+lib/Data/TestImage/DB/Other.pm
+lib/Data/TestImage/DB/USC/SIPI.pm
 share/USC/SIPI/data.yml
 share/other/cameraman.tiff
 t/01_get_image.t

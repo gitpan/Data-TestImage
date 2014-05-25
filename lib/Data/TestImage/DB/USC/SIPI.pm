@@ -1,9 +1,12 @@
-package Data::TestImage::USC::SIPI;
-$Data::TestImage::USC::SIPI::VERSION = '0.001';
+package Data::TestImage::DB::USC::SIPI;
+# ABSTRACT: provides access to the USC SIPI test image database
+$Data::TestImage::DB::USC::SIPI::VERSION = '0.002';
 use strict;
 use warnings;
+use Data::TestImage;
 use Path::Class;
 use Try::Tiny;
+use List::AllUtils qw(first);
 use v5.14;
 
 use parent qw(Data::TestImage::DB);
@@ -69,7 +72,7 @@ sub _get_volume_dir {
 
 sub installed_volumes {
 	my ($self) = @_;
-	grep { -d $self->_get_volume_dir($_) } keys %{ IMAGE_DB_VOLUME() };
+	[ grep { -d $self->_get_volume_dir($_) } keys %{ IMAGE_DB_VOLUME() } ];
 }
 
 sub _valid_volume {
@@ -131,6 +134,18 @@ sub get_metadata {
 	$data;
 }
 
+sub get_image {
+	my ($self, $image) = @_;
+	my $image_file = $self->SUPER::get_image($image);
+	return $image_file if $image_file;
+	# otherwise
+	my $data = $self->get_metadata;
+	first {
+		my $relative_path = $_->relative( $self->get_db_dir )->stringify;
+		$data->{$relative_path}{description}  =~ /\Q$image\E/i
+	} @{ $self->get_installed_images };
+}
+
 
 1;
 
@@ -142,11 +157,76 @@ __END__
 
 =head1 NAME
 
-Data::TestImage::USC::SIPI
+Data::TestImage::DB::USC::SIPI - provides access to the USC SIPI test image database
 
 =head1 VERSION
 
-version 0.001
+version 0.002
+
+=head1 SYNOPSIS
+
+    use Data::TestImage::DB::USC::SIPI;
+
+    # two different ways of referring to the same image
+    my @mandrill_images = map { Data::TestImage::DB::USC::SIPI->get_image($_) } qw(4.2.03 mandrill);
+    say join " & ", map { $_->basename } @mandrill_images;
+    # 4.2.03.tiff & 4.2.03.tiff
+
+=head1 DESCRIPTION
+
+This module installs and provides metadata for the USC SIPI image database.
+This database is made up of 4 volumes: textures, aerials, miscellaneous, and
+sequences. By default, only the miscellaneous volume is installed.
+
+=head1 METHODS
+
+=head2 IMAGE_DB_VOLUME
+
+    IMAGE_DB_VOLUME
+
+Returns a hash containing information about each of the volumes in the image database.
+
+=head2 installed_volumes
+
+    installed_volumes()
+
+Returns an arrayref of strings indicating which volumes are installed.
+
+=head2 get_metadata
+
+    get_metadata()
+
+Returns metadata about all images in the database (even those not installed).
+This data includes the size, a textual description, and whether the image is
+24 bpp color or 8 bpp monochrome.
+
+=head2 get_image
+
+    get_image($image_name)
+
+Overrides L<Data::TestImage::DB/get_image> to provide the default lookup by
+filename first and then if the image is not found, search the metadata text.
+
+=head1 INHERITANCE
+
+=over 4
+
+=item L<Data::TestImage::DB>
+
+=back
+
+=head1 COPYRIGHT INFORMATION
+
+The images in this database are not licensed for commercial use. For more
+information, see the database website.
+
+The textual descriptions returned by L</IMAGE_DB_VOLUME> and L</get_metadata>
+are taken from the database catalog.
+
+=head1 SEE ALSO
+
+L<USC SIPI database|http://sipi.usc.edu/database/>,
+L<database catalog|http://sipi.usc.edu/database/SIPI_Database.pdf>
 
 =head1 AUTHOR
 

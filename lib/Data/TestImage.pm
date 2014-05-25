@@ -1,6 +1,6 @@
 package Data::TestImage;
 # ABSTRACT: interface for retrieving test images
-$Data::TestImage::VERSION = '0.001';
+$Data::TestImage::VERSION = '0.002';
 use strict;
 use warnings;
 use File::ShareDir 'dist_dir';
@@ -11,13 +11,9 @@ sub get_dist_dir {
 	dir(dist_dir('Data-TestImage'));
 }
 
-sub install_package {
-	...
-}
-
 sub get_image {
 	my ($self, $image) = @_;
-	for my $db (qw(Data::TestImage::Other Data::TestImage::USC::SIPI)) {
+	for my $db (qw(Data::TestImage::DB::Other Data::TestImage::DB::USC::SIPI)) {
 		load $db;
 		my $image_file = $db->get_image($image);
 		return $image_file if $image_file;
@@ -38,7 +34,23 @@ Data::TestImage - interface for retrieving test images
 
 =head1 VERSION
 
-version 0.001
+version 0.002
+
+=head1 METHODS
+
+=head2 get_dist_dir
+
+    get_dist_dir()
+
+Returns a L<Path::Class::Dir> object to the shared directory for the
+C<Data-TestImage> distribution.
+
+=head2 get_image
+
+    get_image( $image_name )
+
+Calls L<Data::TestImage::DB/get_image> on L<Data::TestImage::DB::Other> and
+L<Data::TestImage::DB::USC::SIPI>. Returns an instance of L<Path::Class::File>.
 
 =head1 AUTHOR
 
