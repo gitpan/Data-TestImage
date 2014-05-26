@@ -1,6 +1,6 @@
 package Data::TestImage::DB::Other;
 # ABSTRACT: other test images
-$Data::TestImage::DB::Other::VERSION = '0.003';
+$Data::TestImage::DB::Other::VERSION = '0.004';
 use Data::TestImage;
 use parent qw(Data::TestImage::DB);
 
@@ -25,7 +25,7 @@ Data::TestImage::DB::Other - other test images
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 SYNOPSIS
 
@@ -35,9 +35,9 @@ version 0.003
     say $camera_file->basename;
     # cameraman.tiff
 
-=head1 DESCRIPTION
+Produces the L<cameraman.tiff|http://zmughal.github.io/p5-Data-TestImage/Other/cameraman.png> image.
 
-This image database currently contains just cameraman.tiff.
+=for html <div><img width="200" alt="Cameraman image" src="http://zmughal.github.io/p5-Data-TestImage/Other/cameraman.png"/></div>
 
 =head1 INHERITANCE
 
@@ -46,6 +46,10 @@ This image database currently contains just cameraman.tiff.
 =item L<Data::TestImage::DB>
 
 =back
+
+=head1 DESCRIPTION
+
+This image database currently contains just cameraman.tiff.
 
 =head1 AUTHOR
 

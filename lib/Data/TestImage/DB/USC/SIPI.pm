@@ -1,6 +1,6 @@
 package Data::TestImage::DB::USC::SIPI;
 # ABSTRACT: provides access to the USC SIPI test image database
-$Data::TestImage::DB::USC::SIPI::VERSION = '0.003';
+$Data::TestImage::DB::USC::SIPI::VERSION = '0.004';
 use strict;
 use warnings;
 use Data::TestImage;
@@ -17,6 +17,7 @@ use constant ARCHIVE_TYPE => 'tgz';
 use constant IMAGE_DB_VOLUME => {
 	textures => {
 			volume => 1,
+			dir => 'textures',
 			description => 'Brodatz textures, texture mosaics, etc.',
 			description_longer =>
 q{For the Brodatz texture images, the number in parenthesis (i.e. D12) is the
@@ -35,18 +36,21 @@ web site <http://sipi.usc.edu/database/USCTextureMosaics.pdf>.},
 		},
 	aerials => {
 			volume => 2,
+			dir => 'aerials',
 			description => 'High altitude aerial images',
 			url => 'http://sipi.usc.edu/database/aerials.tar.gz',
 			alt_urls => [ 'https://github.com/zmughal/usc-sipi-image-database-backup/blob/master/aerials.tar.gz?raw=true' ],
 		},
 	miscellaneous => {
 			volume => 3,
+			dir => 'misc',
 			description => 'Lena, the mandrill, and other favorites',
 			url => 'http://sipi.usc.edu/database/misc.tar.gz',
 			alt_urls => [ 'https://github.com/zmughal/usc-sipi-image-database-backup/blob/master/misc.tar.gz?raw=true' ],
 		},
 	sequences => {
 			volume => 4,
+			dir => 'sequences',
 			description => 'Moving head, fly-overs, moving vehicles',
 			description_longer =>
 q{Each of the sequences consist of multiple images showing motion of the subject matter. The image filenames
@@ -67,7 +71,7 @@ sub get_db_dir {
 sub _get_volume_dir {
 	my ($self, $volume) = @_;
 	$self->_valid_volume( $volume );
-	$self->get_db_dir->subdir($volume);
+	$self->get_db_dir->subdir( IMAGE_DB_VOLUME()->{$volume}{dir} );
 }
 
 sub installed_volumes {
@@ -85,7 +89,12 @@ sub install_package {
 	require HTTP::Tiny;
 	require Archive::Extract;
 	require File::Temp;
+	no warnings 'exiting'; # for the next/last URL
 	my @volumes = split ',', $args;
+
+	# if :all is the name used, then just download all known volumes
+	@volumes = keys IMAGE_DB_VOLUME() if grep { $_ eq ":all" } @volumes;
+
 	for my $volume (@volumes) {
 		$self->_valid_volume( $volume );
 
@@ -99,20 +108,24 @@ sub install_package {
 			try {
 				$response = HTTP::Tiny->new->get($url);
 				die "Failed to download $volume @ $url\n" unless $response->{success};
-				last URL;
+
+				# save the response to temp file
+				my $temp_fh = File::Temp->new;
+				file($temp_fh->filename)->spew(
+					$response->{content} );
+
+				# extract to appropriate directory
+				print "Extracting $volume...\n" if $opts{verbose};
+				my $ae = Archive::Extract->new(
+					archive => $temp_fh->filename,
+					type => ARCHIVE_TYPE );
+				$ae->extract( to => $self->get_db_dir );
+
+				last URL; # done with this URL
 			} catch {
-				next URL;
+				next URL; # something went wrong...try alternatives
 			};
 		}
-
-		# save the response to temp file
-		my $temp_fh = File::Temp->new;
-		file($temp_fh->filename)->spew( $response->{content} );
-
-		# extract to appropriate directory
-		print "Extracting $volume...\n" if $opts{verbose};
-		my $ae = Archive::Extract->new( archive => $temp_fh->filename, type => ARCHIVE_TYPE );
-		$ae->extract( to => $self->get_db_dir );
 	}
 }
 
@@ -161,7 +174,7 @@ Data::TestImage::DB::USC::SIPI - provides access to the USC SIPI test image data
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 SYNOPSIS
 
@@ -173,6 +186,18 @@ version 0.003
     } qw(4.2.03 mandrill);
     say join " & ", map { $_->basename } @mandrill_images;
     # 4.2.03.tiff & 4.2.03.tiff
+
+Produces the L<mandrill|http://zmughal.github.io/p5-Data-TestImage/USC/SIPI/mandrill.png> image.
+
+=for html <div><img width="200" alt="Mandrill image" src="http://zmughal.github.io/p5-Data-TestImage/USC/SIPI/mandrill.png"/></div>
+
+=head1 INHERITANCE
+
+=over 4
+
+=item L<Data::TestImage::DB>
+
+=back
 
 =head1 DESCRIPTION
 
@@ -209,13 +234,22 @@ the image is 24 bpp color or 8 bpp monochrome.
 Overrides L<Data::TestImage::DB/get_image> to provide the default lookup by
 filename first and then if the image is not found, search the metadata text.
 
-=head1 INHERITANCE
+=head1 INSTALLATION
 
-=over 4
+As discussed in L<Data::TestImage|Data::TestImage/INSTALLATION>, installing
+further volumes can be done by setting the C<PERL_DATA_TESTIMAGE_INSTALL>
+environment variable. The syntax for installing each volume is
 
-=item L<Data::TestImage::DB>
+    USC::SIPI=<volume>,<volume>,<volume>,...
 
-=back
+where C<<volume>> is one of the volume names as listed in L</DESCRIPTION>.
+
+A shortcut for installing all volumes in the database is to use C<:all> as the
+volume name, that is, set the environment variable to
+
+    USC::SIPI=:all
+
+and then install the distribution.
 
 =head1 COPYRIGHT INFORMATION
 

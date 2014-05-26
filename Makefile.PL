@@ -45,7 +45,7 @@ my %WriteMakefileArgs = (
     "Test::More" => 0,
     "lib" => 0
   },
-  "VERSION" => "0.003",
+  "VERSION" => "0.004",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -59,7 +59,7 @@ $WriteMakefileArgs{CONFIGURE} = sub {
 	my $install_these = $ENV{PERL_DATA_TESTIMAGE_INSTALL} // "USC::SIPI=miscellaneous";
 	my @install = split ' ', $install_these;
 	for my $package (@install) {
-		my ($module_part,$args) = split "=", $package;
+		my ($module_part,$args) = split "=", $package, 2;
 		my $module = "Data::TestImage::DB::$module_part";
 		load $module;
 		$module->install_package($args, verbose => 1);

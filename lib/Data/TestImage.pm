@@ -1,6 +1,6 @@
 package Data::TestImage;
 # ABSTRACT: interface for retrieving test images
-$Data::TestImage::VERSION = '0.003';
+$Data::TestImage::VERSION = '0.004';
 use strict;
 use warnings;
 use File::ShareDir 'dist_dir';
@@ -34,7 +34,7 @@ Data::TestImage - interface for retrieving test images
 
 =head1 VERSION
 
-version 0.003
+version 0.004
 
 =head1 SYNOPSIS
 
@@ -42,6 +42,10 @@ version 0.003
 
     say Data::TestImage->get_image('mandrill')->basename;
     # 4.2.03.tiff
+
+Produces the L<mandrill|http://zmughal.github.io/p5-Data-TestImage/USC/SIPI/mandrill.png> image.
+
+=for html <div><img width="200" alt="Mandrill image" src="http://zmughal.github.io/p5-Data-TestImage/USC/SIPI/mandrill.png"/></div>
 
 =head1 METHODS
 
@@ -58,6 +62,19 @@ C<Data-TestImage> distribution.
 
 Calls L<Data::TestImage::DB/get_image> on L<Data::TestImage::DB::Other> and
 L<Data::TestImage::DB::USC::SIPI>. Returns an instance of L<Path::Class::File>.
+
+=head1 INSTALLATION
+
+Some of the image databases can be configured to install more images at
+configuration time. This can be accomplished by setting the
+C<PERL_DATA_TESTIMAGE_INSTALL> environment variable prior to installation, for
+example
+
+    export PERL_DATA_TESTIMAGE_INSTALL="USC::SIPI=miscellaneous,sequences"
+    cpanm Data::TestImage
+
+See the database documentation for more information. Multiple databases can be
+configured by putting a space between each sequence.
 
 =head1 AUTHOR
 

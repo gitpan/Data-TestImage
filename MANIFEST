@@ -17,5 +17,7 @@ share/other/cameraman.tiff
 t/01_get_image.t
 t/02_usc_sipi.t
 t/lib/StubTestImage.pm
+tool/create-gh-pages
 tool/download-and-backup-usc-sipi-images
 tool/init-data
+weaver.ini

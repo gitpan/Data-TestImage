@@ -33,4 +33,4 @@ requires:
 resources:
   homepage: https://github.com/zmughal/p5-Data-TestImage
   repository: https://github.com/zmughal/p5-Data-TestImage.git
-version: 0.003
+version: 0.004
