@@ -1,6 +1,6 @@
 package Data::TestImage::DB::USC::SIPI;
 # ABSTRACT: provides access to the USC SIPI test image database
-$Data::TestImage::DB::USC::SIPI::VERSION = '0.004';
+$Data::TestImage::DB::USC::SIPI::VERSION = '0.005';
 use strict;
 use warnings;
 use Data::TestImage;
@@ -174,7 +174,7 @@ Data::TestImage::DB::USC::SIPI - provides access to the USC SIPI test image data
 
 =head1 VERSION
 
-version 0.004
+version 0.005
 
 =head1 SYNOPSIS
 

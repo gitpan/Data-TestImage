@@ -1,6 +1,6 @@
 package Data::TestImage::DB::Other;
 # ABSTRACT: other test images
-$Data::TestImage::DB::Other::VERSION = '0.004';
+$Data::TestImage::DB::Other::VERSION = '0.005';
 use Data::TestImage;
 use parent qw(Data::TestImage::DB);
 
@@ -25,7 +25,7 @@ Data::TestImage::DB::Other - other test images
 
 =head1 VERSION
 
-version 0.004
+version 0.005
 
 =head1 SYNOPSIS
 

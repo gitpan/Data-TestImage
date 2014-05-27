@@ -20,7 +20,9 @@ my %WriteMakefileArgs = (
   "BUILD_REQUIRES" => {},
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => "6.30",
-    "File::ShareDir::Install" => "0.03"
+    "File::ShareDir::Install" => "0.03",
+    "Module::Load" => 0,
+    "Path::Class" => 0
   },
   "DISTNAME" => "Data-TestImage",
   "EXE_FILES" => [],
@@ -45,7 +47,7 @@ my %WriteMakefileArgs = (
     "Test::More" => 0,
     "lib" => 0
   },
-  "VERSION" => "0.004",
+  "VERSION" => "0.005",
   "test" => {
     "TESTS" => "t/*.t"
   }
