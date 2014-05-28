@@ -6,10 +6,14 @@ build_requires:
   Test::More: 0
   lib: 0
 configure_requires:
+  Archive::Extract: 0
   ExtUtils::MakeMaker: 6.30
   File::ShareDir::Install: 0.03
+  File::Temp: 0
+  HTTP::Tiny: 0
   Module::Load: 0
   Path::Class: 0
+  Try::Tiny: 0
 dynamic_config: 0
 generated_by: 'Dist::Zilla version 5.016, CPAN::Meta::Converter version 2.133380'
 license: perl
@@ -35,4 +39,4 @@ requires:
 resources:
   homepage: https://github.com/zmughal/p5-Data-TestImage
   repository: https://github.com/zmughal/p5-Data-TestImage.git
-version: 0.005
+version: 0.006

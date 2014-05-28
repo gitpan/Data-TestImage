@@ -1,6 +1,6 @@
 package Data::TestImage::DB::USC::SIPI;
 # ABSTRACT: provides access to the USC SIPI test image database
-$Data::TestImage::DB::USC::SIPI::VERSION = '0.005';
+$Data::TestImage::DB::USC::SIPI::VERSION = '0.006';
 use strict;
 use warnings;
 use Data::TestImage;
@@ -93,7 +93,7 @@ sub install_package {
 	my @volumes = split ',', $args;
 
 	# if :all is the name used, then just download all known volumes
-	@volumes = keys IMAGE_DB_VOLUME() if grep { $_ eq ":all" } @volumes;
+	@volumes = keys %{ IMAGE_DB_VOLUME() } if grep { $_ eq ":all" } @volumes;
 
 	for my $volume (@volumes) {
 		$self->_valid_volume( $volume );
@@ -137,7 +137,7 @@ sub get_installed_images {
 sub get_all_images {
 	my ($self) = @_;
 	my $top = $self->get_db_dir;
-	[ map { $top->file( split('/', $_) ) } keys $self->get_metadata ];
+	[ map { $top->file( split('/', $_) ) } keys %{ $self->get_metadata } ];
 }
 
 sub get_metadata {
@@ -174,7 +174,7 @@ Data::TestImage::DB::USC::SIPI - provides access to the USC SIPI test image data
 
 =head1 VERSION
 
-version 0.005
+version 0.006
 
 =head1 SYNOPSIS
 

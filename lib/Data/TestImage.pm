@@ -1,6 +1,6 @@
 package Data::TestImage;
 # ABSTRACT: interface for retrieving test images
-$Data::TestImage::VERSION = '0.005';
+$Data::TestImage::VERSION = '0.006';
 use strict;
 use warnings;
 use File::ShareDir 'dist_dir';
@@ -34,7 +34,7 @@ Data::TestImage - interface for retrieving test images
 
 =head1 VERSION
 
-version 0.005
+version 0.006
 
 =head1 SYNOPSIS
 

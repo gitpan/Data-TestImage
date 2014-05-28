@@ -19,10 +19,14 @@ my %WriteMakefileArgs = (
   "AUTHOR" => "Zakariyya Mughal <zmughal\@cpan.org>",
   "BUILD_REQUIRES" => {},
   "CONFIGURE_REQUIRES" => {
+    "Archive::Extract" => 0,
     "ExtUtils::MakeMaker" => "6.30",
     "File::ShareDir::Install" => "0.03",
+    "File::Temp" => 0,
+    "HTTP::Tiny" => 0,
     "Module::Load" => 0,
-    "Path::Class" => 0
+    "Path::Class" => 0,
+    "Try::Tiny" => 0
   },
   "DISTNAME" => "Data-TestImage",
   "EXE_FILES" => [],
@@ -47,7 +51,7 @@ my %WriteMakefileArgs = (
     "Test::More" => 0,
     "lib" => 0
   },
-  "VERSION" => "0.005",
+  "VERSION" => "0.006",
   "test" => {
     "TESTS" => "t/*.t"
   }

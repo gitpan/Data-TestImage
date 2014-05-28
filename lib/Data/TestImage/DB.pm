@@ -1,6 +1,6 @@
 package Data::TestImage::DB;
 # ABSTRACT: an abstract class for an image database
-$Data::TestImage::DB::VERSION = '0.005';
+$Data::TestImage::DB::VERSION = '0.006';
 use strict;
 use warnings;
 use List::AllUtils qw(first);
@@ -42,7 +42,7 @@ Data::TestImage::DB - an abstract class for an image database
 
 =head1 VERSION
 
-version 0.005
+version 0.006
 
 =head1 METHODS
 
